@@ -16,6 +16,7 @@ type Conf struct {
 	CoreServiceUrl   string
 	CoreServicePort  string
 	GenerateSpec     bool
+	StateTimeSec	 int64	//time to check device schedule state in seconds
 }
 
 var App *Conf
@@ -45,6 +46,7 @@ func configDefaults(c *Conf) {
 	c.CoreServiceUrl = ""
 	c.CoreServicePort = ""
 	c.GenerateSpec = false
+	c.StateTimeSec = 60
 	return
 }
 
@@ -56,6 +58,7 @@ func configFlags(c *Conf) {
 	flag.StringVar(&c.AuthToken, "authToken", c.AuthToken, "app authentication token")
 	flag.StringVar(&c.ListenPort, "port", c.ListenPort, "http listener http port")
 	flag.BoolVar(&c.GenerateSpec, "generateSpec", c.GenerateSpec, "print the http spec to console")
+	flag.Int64Var(&c.StateTimeSec, "stateTimeSec", c.StateTimeSec, "tine to check device states")
 	flag.Parse()
 	return
 }
