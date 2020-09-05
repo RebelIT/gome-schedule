@@ -8,6 +8,9 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
+	"strings"
+	"time"
 )
 
 func newDatabase(dbName string) error {
@@ -80,4 +83,55 @@ func respondHttpBody(w http.ResponseWriter, r *http.Request, data interface{}) {
 
 	//ToDo: Metric
 	return
+}
+
+func currentTimeSplit() (strTime string, intTime int, weekday string, now time.Time) {
+	Now := time.Now()
+	NowMinute := Now.Minute()
+	NowHour := Now.Hour()
+	NowDay := Now.Weekday()
+
+	sTime := ""
+	singleMinute := inBetween(NowMinute, 0, 9)
+	if singleMinute {
+		sTime = strconv.Itoa(NowHour) + "0" + strconv.Itoa(NowMinute)
+	} else {
+		sTime = strconv.Itoa(NowHour) + strconv.Itoa(NowMinute)
+	}
+
+	iTime, _ := strconv.Atoi(sTime)
+	day := strings.ToLower(NowDay.String())
+
+	return sTime, iTime, day, Now
+}
+
+func inBetween(i, min, max int) bool {
+	if (i >= min) && (i <= max) {
+		return true
+	} else {
+		return false
+	}
+}
+
+func inBetweenReverse(i, min, max int) bool {
+	if (i >= min) && (i <= max) {
+		return false
+	} else {
+		return true
+	}
+}
+
+func boolToState(boolState bool) string {
+	if boolState {
+		return "on"
+	}
+	return "off"
+}
+
+func isToday(day string) bool {
+	_, _, today, _ := currentTimeSplit()
+	if today == day {
+		return true
+	}
+	return false
 }

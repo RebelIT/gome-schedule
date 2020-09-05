@@ -16,7 +16,7 @@ type Conf struct {
 	CoreServiceUrl   string
 	CoreServicePort  string
 	GenerateSpec     bool
-	StateTimeSec	 int64	//time to check device schedule state in seconds
+	StateTimeSec     int64 //time to check device schedule state in seconds
 }
 
 var App *Conf

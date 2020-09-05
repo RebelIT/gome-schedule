@@ -1,24 +1,20 @@
 package schedule
 
 import (
+	"github.com/rebelit/gome-schedule/common/config"
 	"log"
 	"time"
 )
 
-//ToDo: left off here
-func ProcessSchedules(){
-	log.Printf("INFO: Starting schedule runners")
+var retry = 5 //seconds
 
-	for{
-		dt := time.Now()
+func Runner() {
+	log.Println("INFO: starting schedule runners")
 
+	for {
+		go processStateSchedules()
+		go processToggleSchedules()
+
+		time.Sleep(time.Duration(config.App.StateTimeSec))
 	}
-}
-
-func processToggleSchedules(){
-	getAllToggleSchedules()
-}
-
-func processStateSchedules(){
-	getAllStateSchedules()
 }

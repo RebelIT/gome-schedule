@@ -12,7 +12,8 @@ func main() {
 	log.Printf("INFO: I'm starting")
 	config.Runtime()
 	schedule.InitializeDatabases()
-	log.Printf("ANDY: database complete")
+
+	go schedule.Runner()
 
 	start(config.App.ListenPort)
 	return
