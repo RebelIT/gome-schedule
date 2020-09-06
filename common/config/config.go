@@ -3,6 +3,8 @@ package config
 import (
 	"flag"
 	"log"
+	"os"
+	"strconv"
 )
 
 type Conf struct {
@@ -17,7 +19,7 @@ type Conf struct {
 	CoreServicePort  string
 	GenerateSpec     bool
 	StateTimeSec     int64 //time to check device schedule state in seconds
-	FullMemory	     bool	//use this for full in memory badgerDB cache
+	FullMemory       bool  //use this for full in memory badgerDB cache
 }
 
 var App *Conf
@@ -31,6 +33,7 @@ func Runtime() {
 	log.Printf("INFO: loading runtime configuration")
 	c := &Conf{}
 	configDefaults(c)
+	configEnvironment(c)
 	configFlags(c)
 
 	App = c
@@ -49,6 +52,53 @@ func configDefaults(c *Conf) {
 	c.GenerateSpec = false
 	c.StateTimeSec = 30
 	c.FullMemory = false
+	return
+}
+
+func configEnvironment(c *Conf) {
+	name := os.Getenv("SCHEDULE_NAME")
+	statsd := os.Getenv("SCHEDULE_STATSD")
+	dbPath := os.Getenv("SCHEDULE_DBPATH")
+	authToken := os.Getenv("SCHEDULE_TOKEN")
+	port := os.Getenv("SCHEDULE_PORT")
+	fullMemory := os.Getenv("SCHEDULE_MEMORY")
+	coreServiceToken := os.Getenv("SCHEDULE_CORE_TOKEN")
+	coreServiceUrl := os.Getenv("SCHEDULE_CORE_URL")
+	coreServicePort := os.Getenv("SCHEDULE_CORE_PORT")
+	stateTimeSec := os.Getenv("SCHEDULE_STATE_TIME_SEC")
+
+	if name != "" {
+		c.Name = name
+	}
+	if statsd != "" {
+		c.StatAddr = statsd
+	}
+	if dbPath != "" {
+		c.DbPath = dbPath
+	}
+	if authToken != "" {
+		c.AuthToken = authToken
+	}
+	if port != "" {
+		c.ListenPort = port
+	}
+	if fullMemory != "" {
+		c.FullMemory = true
+	}
+	if coreServiceToken != "" {
+		c.CoreServiceToken = coreServiceToken
+	}
+	if coreServiceUrl != "" {
+		c.CoreServiceUrl = coreServiceUrl
+	}
+	if coreServicePort != "" {
+		c.CoreServicePort = coreServicePort
+	}
+	if stateTimeSec != "" {
+		i, _ := strconv.Atoi(stateTimeSec)
+		c.StateTimeSec = int64(i)
+	}
+
 	return
 }
 
