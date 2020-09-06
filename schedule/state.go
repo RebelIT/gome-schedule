@@ -85,7 +85,7 @@ func getAllStateSchedules() (schedules map[string]DeviceState, error error) {
 			//ToDo: metric
 			continue
 		}
-		schedules[k]=s
+		schedules[k] = s
 	}
 
 	return schedules, nil
