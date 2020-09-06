@@ -2,6 +2,7 @@ package database
 
 import (
 	"github.com/dgraph-io/badger"
+	"github.com/rebelit/gome-schedule/common/config"
 	"github.com/rebelit/gome-schedule/common/stat"
 	"log"
 )
@@ -29,7 +30,39 @@ func Open(path string) (Database, error) {
 	}
 
 	d := Badger{}
-	opts := badger.DefaultOptions(path)
+	opts := badger.Options{}
+	if config.App.FullMemory {
+		opts = badger.DefaultOptions(path)
+	} else {
+		opts = badger.Options{
+			Dir:                     path,
+			ValueDir:                path,
+			SyncWrites:              true,
+			TableLoadingMode:        0,
+			ValueLogLoadingMode:     0,
+			LevelOneSize:            256 << 20,
+			LevelSizeMultiplier:     10,
+			NumVersionsToKeep:       1,
+			ReadOnly:                false,
+			Truncate:                false,
+			Logger:                  nil,
+			EventLogging:            true,
+			MaxTableSize:            64 << 20,
+			MaxLevels:               7,
+			ValueThreshold:          32,
+			NumMemtables:            5,
+			NumLevelZeroTables:      5,
+			NumLevelZeroTablesStall: 10,
+			ValueLogFileSize:        1<<30 - 1,
+			ValueLogMaxEntries:      1000,
+			NumCompactors:           2,
+			CompactL0OnClose:        true,
+			LogRotatesToFlush:       2,
+			VerifyValueChecksum:     false,
+			BypassLockGuard:         false,
+		}
+	}
+
 	db, err := badger.Open(opts)
 	if err != nil {
 		log.Printf("ERROR: database %s open %s", path, err)

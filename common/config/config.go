@@ -17,6 +17,7 @@ type Conf struct {
 	CoreServicePort  string
 	GenerateSpec     bool
 	StateTimeSec     int64 //time to check device schedule state in seconds
+	FullMemory	     bool	//use this for full in memory badgerDB cache
 }
 
 var App *Conf
@@ -47,6 +48,7 @@ func configDefaults(c *Conf) {
 	c.CoreServicePort = "6660"
 	c.GenerateSpec = false
 	c.StateTimeSec = 30
+	c.FullMemory = false
 	return
 }
 
@@ -61,6 +63,7 @@ func configFlags(c *Conf) {
 	flag.StringVar(&c.CoreServicePort, "corePort", c.CoreServicePort, "tcp port for gome-core")
 	flag.BoolVar(&c.GenerateSpec, "generateSpec", c.GenerateSpec, "print the http spec to console")
 	flag.Int64Var(&c.StateTimeSec, "stateTimeSec", c.StateTimeSec, "tine to check device states")
+	flag.BoolVar(&c.FullMemory, "fullMemory", c.FullMemory, "run database with full memory cache mem > 1GB required")
 	flag.Parse()
 	return
 }
