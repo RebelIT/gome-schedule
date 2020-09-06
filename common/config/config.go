@@ -37,16 +37,16 @@ func Runtime() {
 }
 
 func configDefaults(c *Conf) {
-	c.Name = "gome-core"
+	c.Name = "gome-schedule"
 	c.StatAddr = ""
 	c.DbPath = "badgerDatabase"
 	c.AuthToken = "changeMePlease"
 	c.ListenPort = "6661"
 	c.CoreServiceToken = "changeMePlease"
-	c.CoreServiceUrl = ""
-	c.CoreServicePort = ""
+	c.CoreServiceUrl = "http://localhost"
+	c.CoreServicePort = "6660"
 	c.GenerateSpec = false
-	c.StateTimeSec = 60
+	c.StateTimeSec = 30
 	return
 }
 
@@ -54,9 +54,11 @@ func configFlags(c *Conf) {
 	flag.StringVar(&c.StatAddr, "statsd", c.StatAddr, "statsd address")
 	flag.StringVar(&c.Name, "name", c.Name, "application name")
 	flag.StringVar(&c.DbPath, "dbPath", c.DbPath, "path to local database")
-	flag.StringVar(&c.SlackWebhook, "slackWebhook", c.SlackWebhook, "slack webhook url")
 	flag.StringVar(&c.AuthToken, "authToken", c.AuthToken, "app authentication token")
 	flag.StringVar(&c.ListenPort, "port", c.ListenPort, "http listener http port")
+	flag.StringVar(&c.CoreServiceToken, "coreToken", c.CoreServiceToken, "auth token for gome-core")
+	flag.StringVar(&c.CoreServiceUrl, "coreUrl", c.CoreServiceUrl, "address of gome-core http://dnsname")
+	flag.StringVar(&c.CoreServicePort, "corePort", c.CoreServicePort, "tcp port for gome-core")
 	flag.BoolVar(&c.GenerateSpec, "generateSpec", c.GenerateSpec, "print the http spec to console")
 	flag.Int64Var(&c.StateTimeSec, "stateTimeSec", c.StateTimeSec, "tine to check device states")
 	flag.Parse()
