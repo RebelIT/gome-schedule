@@ -8,11 +8,12 @@ GoLang Home Automation - Job Scheduler
     * ex: ensure a roku TV remains off between 10PM and 9AM.  if the device is turned on it will be turned off.
 2. Set a fire & forget (crontab) like action to a device (single schedule or recurring)
     * ex: turn on a roku tv at 8AM every weekday
+    * recurring = true: schedule will happen again at the day/time specified 
+    * recurring = false: schedule will be deleted after running at the day/time specified
 3. In development: get and launch a roku app at a specific time every day after powering on (deep linking where applicable to launch content inside the app/channel as well)
     
 ## WIP
 * only supports schedules for device power on and off on a schedule, see [gome-core doco](https://github.com/RebelIT/gome-core/blob/master/README.md) for supported devices.
-* currently no method to update a schedule, only delete and post new with the updated body
 
 ## Application Configuration
 ### Defaults
@@ -69,7 +70,7 @@ GoLang Home Automation - Job Scheduler
      * **Method**: POST
          * **Purpose**: Adds a new state schedule
          * **Returns**: Status code
-     * **Method**: PUT **NOT YET IMPLEMENTED**
+     * **Method**: PUT
          * **Purpose**: Updates an existing state schedule
          * **Returns**: Status code
      * **Method**: DELETE
@@ -88,7 +89,7 @@ GoLang Home Automation - Job Scheduler
      * **Method**: POST
         * **Purpose**: Adds a new toggle schedule
         * **Returns**: Status code
-     * **Method**: PUT **NOT YET IMPLEMENTED**
+     * **Method**: PUT
         * **Purpose**: Updates an existing toggle schedule
         * **Returns**: Status code         
      * **Method**: DELETE
