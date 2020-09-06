@@ -10,7 +10,14 @@ import (
 
 func main() {
 	log.Printf("INFO: I'm starting")
+
 	config.Runtime()
+
+	if config.App.GenerateSpec{
+		web.GenerateSpec()
+		return
+	}
+
 	schedule.InitializeDatabases()
 
 	go schedule.Runner()
