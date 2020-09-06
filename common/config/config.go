@@ -52,6 +52,7 @@ func configDefaults(c *Conf) {
 	c.GenerateSpec = false
 	c.StateTimeSec = 30
 	c.FullMemory = false
+
 	return
 }
 
