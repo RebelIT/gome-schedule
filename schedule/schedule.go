@@ -132,7 +132,7 @@ func processToggleSchedules() {
 
 	_, now, _, _ := currentTimeSplit()
 
-	for _, s := range schedules {
+	for n, s := range schedules {
 		//ToDo: maybe combine these in to an okToProcess function.
 		if !s.Enabled {
 			//skip disabled
@@ -150,17 +150,23 @@ func processToggleSchedules() {
 			continue
 		}
 
-		go s.doToggleSchedule()
+		go s.doToggleSchedule(n)
 	}
 
 	return
 }
 
-func (s *DeviceToggle) doToggleSchedule() {
+func (s *DeviceToggle) doToggleSchedule(name string) {
 	if err := device.SetDeviceActionState(s.DeviceType, s.DeviceName, s.DeviceAction, boolToState(s.DeviceState)); err != nil {
-		log.Printf("ERROR: setting %s %s %s %s desired state", s.DeviceType, s.DeviceName,
+		log.Printf("ERROR: %s setting %s %s %s %s desired state", name, s.DeviceType, s.DeviceName,
 			s.DeviceAction, boolToState(s.DeviceState))
 		//toDo: metric
+	}
+
+	if !s.Reoccurring {
+		if err := deleteSchedule(name, config.TOGGLEDBNAME); err != nil {
+			log.Printf("ERROR: failed to delete toggle schedule %s after running", name)
+		}
 	}
 
 	return

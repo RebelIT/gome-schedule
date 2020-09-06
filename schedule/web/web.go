@@ -37,10 +37,12 @@ var routes = Routes{
 	Route{"state", "GET", "/api/schedule/state", schedule.StateGetAll},
 	Route{"state", "GET", "/api/schedule/state/{friendlyName}", schedule.StateGet},
 	Route{"state", "POST", "/api/schedule/state/{friendlyName}", schedule.StateNew},
+	Route{"state", "PUT", "/api/schedule/state/{friendlyName}", schedule.StateUpdate},
 	Route{"state", "DELETE", "/api/schedule/state/{friendlyName}", schedule.StateDelete},
 	Route{"toggle", "GET", "/api/schedule/toggle", schedule.ToggleGetAll},
 	Route{"toggle", "GET", "/api/schedule/toggle/{friendlyName}", schedule.ToggleGet},
 	Route{"toggle", "POST", "/api/schedule/toggle/{friendlyName}", schedule.ToggleNew},
+	Route{"toggle", "PUT", "/api/schedule/toggle/{friendlyName}", schedule.ToggleUpdate},
 	Route{"toggle", "DELETE", "/api/schedule/toggle/{friendlyName}", schedule.ToggleDelete},
 }
 

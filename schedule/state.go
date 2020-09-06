@@ -140,6 +140,30 @@ func StateNew(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
+func StateUpdate(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	name := strings.ToLower(vars["friendlyName"])
+
+	data, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		//ToDo: Metric
+		log.Printf("ERROR: StateUpdate %s", err)
+		return
+	}
+
+	if err := updateSchedule(name, data, config.STATEDBNAME); err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		//ToDo: Metric
+		log.Printf("ERROR: StateUpdate %s", err)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	//ToDo: Metric
+	return
+}
+
 func StateDelete(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	name := strings.ToLower(vars["friendlyName"])

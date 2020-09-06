@@ -53,7 +53,7 @@ func getToggleSchedule(name string) (schedule DeviceToggle, error error) {
 	return s, nil
 }
 
-func getAllToggleSchedules() (schedules []DeviceToggle, error error) {
+func getAllToggleSchedules() (schedules map[string]DeviceToggle, error error) {
 	db, err := database.Open(fmt.Sprintf("%s/%s", config.App.DbPath, config.TOGGLEDBNAME))
 	if err != nil {
 		return schedules, err
@@ -64,6 +64,7 @@ func getAllToggleSchedules() (schedules []DeviceToggle, error error) {
 		return schedules, err
 	}
 
+	schedules = make(map[string]DeviceToggle)
 	for _, k := range keys {
 		data, err := db.Get(k)
 		if err != nil {
@@ -78,7 +79,8 @@ func getAllToggleSchedules() (schedules []DeviceToggle, error error) {
 			//ToDo: metric
 			continue
 		}
-		schedules = append(schedules, s)
+
+		schedules[k] = s
 	}
 
 	return schedules, nil
@@ -133,6 +135,30 @@ func ToggleNew(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		//ToDo: Metric
 		log.Printf("ERROR: ToggleNew %s", err)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	//ToDo: Metric
+	return
+}
+
+func ToggleUpdate(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	name := strings.ToLower(vars["friendlyName"])
+
+	data, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		//ToDo: Metric
+		log.Printf("ERROR: ToggleUpdate %s", err)
+		return
+	}
+
+	if err := updateSchedule(name, data, config.TOGGLEDBNAME); err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		//ToDo: Metric
+		log.Printf("ERROR: ToggleUpdate %s", err)
 		return
 	}
 

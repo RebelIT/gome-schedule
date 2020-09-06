@@ -53,6 +53,16 @@ func newSchedule(name string, schedule []byte, dbName string) error {
 	return nil
 }
 
+func updateSchedule(name string, schedule []byte, dbName string) error {
+	if err := deleteSchedule(name, dbName); err != nil {
+		return err
+	}
+	if err := newSchedule(name, schedule, dbName); err != nil {
+		return err
+	}
+	return nil
+}
+
 func requiredPathExists(path string) bool {
 	_, err := os.Stat(path)
 	if err != nil {
