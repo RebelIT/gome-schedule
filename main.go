@@ -13,7 +13,7 @@ func main() {
 
 	config.Runtime()
 
-	if config.App.GenerateSpec{
+	if config.App.GenerateSpec {
 		web.GenerateSpec()
 		return
 	}
