@@ -65,7 +65,12 @@ func getAllToggleSchedules() (schedules map[string]DeviceToggle, error error) {
 	}
 
 	schedules = make(map[string]DeviceToggle)
+	//ToDo: need to pool the connections in the database. this is kinda hacky...
 	for _, k := range keys {
+		db, err := database.Open(fmt.Sprintf("%s/%s", config.App.DbPath, config.TOGGLEDBNAME))
+		if err != nil {
+			return schedules, err
+		}
 		data, err := db.Get(k)
 		if err != nil {
 			log.Printf("WARN: getAllToggleSchedules failed to get %s", k)

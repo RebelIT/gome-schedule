@@ -15,6 +15,6 @@ func Runner() {
 		go processStateSchedules()
 		go processToggleSchedules()
 
-		time.Sleep(time.Duration(config.App.StateTimeSec))
+		time.Sleep(time.Second * time.Duration(config.App.StateTimeSec))
 	}
 }

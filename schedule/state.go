@@ -53,7 +53,7 @@ func getStateSchedule(name string) (schedule DeviceState, error error) {
 	return s, nil
 }
 
-func getAllStateSchedules() (schedules []DeviceState, error error) {
+func getAllStateSchedules() (schedules map[string]DeviceState, error error) {
 	db, err := database.Open(fmt.Sprintf("%s/%s", config.App.DbPath, config.STATEDBNAME))
 	if err != nil {
 		return schedules, err
@@ -64,7 +64,14 @@ func getAllStateSchedules() (schedules []DeviceState, error error) {
 		return schedules, err
 	}
 
+	schedules = make(map[string]DeviceState)
+	//ToDo: need to pool the connections in the database. this is kinda hacky...
 	for _, k := range keys {
+		db, err := database.Open(fmt.Sprintf("%s/%s", config.App.DbPath, config.STATEDBNAME))
+		if err != nil {
+			return schedules, err
+		}
+
 		data, err := db.Get(k)
 		if err != nil {
 			log.Printf("WARN: getAllStateSchedules failed to get %s", k)
@@ -78,7 +85,7 @@ func getAllStateSchedules() (schedules []DeviceState, error error) {
 			//ToDo: metric
 			continue
 		}
-		schedules = append(schedules, s)
+		schedules[k]=s
 	}
 
 	return schedules, nil

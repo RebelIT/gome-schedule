@@ -6,6 +6,7 @@ import (
 	"github.com/rebelit/gome-schedule/common/config"
 	"github.com/rebelit/gome-schedule/common/httpRequest"
 	"io/ioutil"
+	"log"
 	"net/http"
 )
 
@@ -32,7 +33,7 @@ func parseStateResponse(resp *http.Response) (state bool, error error) {
 }
 
 func GetDeviceActionState(devType string, devName string, devAction string) (state bool, error error) {
-	baseUrl := fmt.Sprintf("%s:%s", config.App.CoreServiceUrl, config.App.CoreServicePort)
+	baseUrl := fmt.Sprintf("%s:%s/api", config.App.CoreServiceUrl, config.App.CoreServicePort)
 	uriPart := fmt.Sprintf("/%s/%s/%s", devType, devName, devAction)
 
 	resp, err := httpRequest.Get(baseUrl+uriPart, setHeaders())
@@ -49,17 +50,20 @@ func GetDeviceActionState(devType string, devName string, devAction string) (sta
 }
 
 func SetDeviceActionState(devType string, devName string, devAction string, devState string) error {
-	baseUrl := fmt.Sprintf("%s:%s", config.App.CoreServiceUrl, config.App.CoreServicePort)
+	baseUrl := fmt.Sprintf("%s:%s/api", config.App.CoreServiceUrl, config.App.CoreServicePort)
 	uriPart := fmt.Sprintf("/%s/%s/%s/%s", devType, devName, devAction, devState)
 
-	resp, err := httpRequest.Post(baseUrl+uriPart, nil, setHeaders())
+	log.Printf("DEBUG:: %s",baseUrl+uriPart)
+	resp, err := httpRequest.Put(baseUrl+uriPart, nil, setHeaders())
 	if err != nil {
+		log.Printf("DEBUG:: %s", err)
 		return err
 	}
 
 	if resp.StatusCode != 200 {
+		log.Printf("DEBUG:: non-200")
 		return fmt.Errorf("non-200 response from %s", baseUrl+uriPart)
 	}
-
+	log.Printf("DEBUG:: I passed the http put...")
 	return nil
 }
