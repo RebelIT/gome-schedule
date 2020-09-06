@@ -53,7 +53,7 @@ func SetDeviceActionState(devType string, devName string, devAction string, devS
 	baseUrl := fmt.Sprintf("%s:%s/api", config.App.CoreServiceUrl, config.App.CoreServicePort)
 	uriPart := fmt.Sprintf("/%s/%s/%s/%s", devType, devName, devAction, devState)
 
-	log.Printf("DEBUG:: %s",baseUrl+uriPart)
+	log.Printf("DEBUG:: %s", baseUrl+uriPart)
 	resp, err := httpRequest.Put(baseUrl+uriPart, nil, setHeaders())
 	if err != nil {
 		log.Printf("DEBUG:: %s", err)
