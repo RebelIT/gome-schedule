@@ -92,6 +92,7 @@ func (d Badger) Set(key string, value []byte) error {
 	if err != nil {
 		log.Printf("ERROR: database set %s", err)
 		stat.Database("set", stat.STATEFAILURE)
+		d.db.Close()
 		return err
 	}
 
@@ -108,6 +109,7 @@ func (d Badger) Delete(key string) error {
 	if err != nil {
 		log.Printf("ERROR: database delete %s", err)
 		stat.Database("delete", stat.STATEFAILURE)
+		d.db.Close()
 		return err
 	}
 
@@ -121,6 +123,7 @@ func (d Badger) DeleteAll() error {
 	if err != nil {
 		log.Printf("ERROR: database delete_all %s", err)
 		stat.Database("delete", stat.STATEFAILURE)
+		d.db.Close()
 		return err
 	}
 
@@ -136,6 +139,7 @@ func (d Badger) Get(key string) ([]byte, error) {
 		if err != nil {
 			log.Printf("ERROR: database get %s", err)
 			stat.Database("get", stat.STATEFAILURE)
+			d.db.Close()
 			return err
 		}
 
@@ -145,16 +149,17 @@ func (d Badger) Get(key string) ([]byte, error) {
 		if err != nil {
 			log.Printf("ERROR: database get %s", err)
 			stat.Database("get", stat.STATEFAILURE)
+			d.db.Close()
 			return err
 		}
 
 		valCopy, err = item.ValueCopy(nil)
-
 		return nil
 	})
 	if err != nil {
 		log.Printf("ERROR: database get %s", err)
 		stat.Database("get", stat.STATEFAILURE)
+		d.db.Close()
 		return nil, err
 	}
 
@@ -180,6 +185,7 @@ func (d Badger) GetAllKeys() ([]string, error) {
 	if err != nil {
 		log.Printf("ERROR: database get_all %s", err)
 		stat.Database("get", stat.STATEFAILURE)
+		d.db.Close()
 		return keys, err
 	}
 

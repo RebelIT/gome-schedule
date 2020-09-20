@@ -4,6 +4,7 @@
 - Add: badger DB memory settings for small memory footprints
 - Add: load config from environment for easier docker runtime support
 - Change: dockerfile for compose
+- Fix: database release lock on db error
 
 ### 1.0.0 - untagged
 * initial release
