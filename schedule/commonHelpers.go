@@ -72,7 +72,7 @@ func requiredPathExists(path string) bool {
 }
 
 func createRequiredPath(path string) error {
-	err := os.Mkdir(path, 0755)
+	err := os.MkdirAll(path, 0755)
 	if err != nil {
 		return err
 	}
