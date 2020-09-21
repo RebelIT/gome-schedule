@@ -3,6 +3,7 @@
 ### Merged & not released
 - Add: badger DB memory settings for small memory footprints
 - Add: load config from environment for easier docker runtime support
+- Add: debug logging to troubleshoot schedules
 - Change: dockerfile for compose
 - Fix: database release lock on db error
 - Fix: initialize database make dir full recursive path

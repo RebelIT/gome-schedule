@@ -51,6 +51,7 @@ func processStateSchedules() {
 		//ToDo: maybe combine these in to an okToProcess function.
 		if !s.Enabled {
 			//skip disabled
+			log.Printf("DEBUG: state schedule %s is disabled, ignore it", s.Name)
 			continue
 		}
 
@@ -62,6 +63,7 @@ func processStateSchedules() {
 		enforceStart, _ := strconv.Atoi(s.StartTime)
 		enforceEnd, _ := strconv.Atoi(s.EndTime)
 		if !inScheduleBlock(enforceStart, enforceEnd) {
+			log.Printf("DEBUG: state schedule %s not in schedule block, ignore it", s.Name)
 			continue
 		}
 

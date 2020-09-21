@@ -141,7 +141,9 @@ func boolToState(boolState bool) string {
 func isToday(day string) bool {
 	_, _, today, _ := currentTimeSplit()
 	if today == day {
+		log.Printf("DEBUG: schedule for %s and it's %s, processing", day, today)
 		return true
 	}
+	log.Printf("DEBUG: schedule for %s and it's %s, ignore it", day, today)
 	return false
 }
