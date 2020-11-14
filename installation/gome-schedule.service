@@ -1,0 +1,13 @@
+[Unit]
+Description=gome-schedule
+
+[Service]
+Type=simple
+User=root
+Group=root
+EnvironmentFile=-/etc/gome/core/gome-schedule.environment
+ExecStart=/etc/gome/core/gome-schedule
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

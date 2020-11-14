@@ -1,0 +1,7 @@
+CORE_NAME="gome-schedule"
+CORE_STATSD="127.0.0.1:8125"
+CORE_DBPATH="/etc/gome/schedule/db"
+CORE_SLACK=""
+CORE_TOKEN="chamgeme"
+CORE_PORT="6661"
+CORE_MEMORY="true"
