@@ -74,7 +74,7 @@ func Notify(service string, state string, statusCode int) {
 
 func Http(method string, direction string, url string, statusCode int) {
 	measurement := "http"
-	tags := statsd.Tags("direction", direction, "url", url)
+	tags := statsd.Tags("direction", direction, "url", url, "method", method)
 
 	gauge(measurement, tags, statusCode)
 	return
