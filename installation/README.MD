@@ -1,5 +1,5 @@
 ## Manual Installation
-* build: 
+* build: `GOOS=linux go build -o gome-schedule .`
 * service file goes into `/usr/lib/systemd/system/`
 * env file goes into `/etc/gome/schedule/`
 * database is located `/etc/gome/schedule/db`
