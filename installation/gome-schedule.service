@@ -5,8 +5,8 @@ Description=gome-schedule
 Type=simple
 User=root
 Group=root
-EnvironmentFile=-/etc/gome/core/gome-schedule.environment
-ExecStart=/etc/gome/core/gome-schedule
+EnvironmentFile=-/etc/gome/schedule/gome-schedule.environment
+ExecStart=/etc/gome/schedule/gome-schedule
 Restart=always
 
 [Install]
